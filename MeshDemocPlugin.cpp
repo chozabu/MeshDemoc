@@ -79,6 +79,8 @@ void MeshDemocPlugin::setInterfaces(RsPlugInInterfaces &interfaces){
                 true    // group auto sync
             );
     rsMeshDemoc = mMeshDemoc;
+    mMeshDemoc->start();
+    wall_ns->start();
 }
 
 MainPage *MeshDemocPlugin::qt_page() const
