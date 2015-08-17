@@ -1,0 +1,15 @@
+<RCC>
+	<qresource prefix="/" >
+    <file>images/meshDemoc_16.png</file>
+		<file>images/meshDemoc_24.png</file>
+		<file>images/meshDemoc_32.png</file>
+		<file>images/meshDemoc_48.png</file>
+		<file>images/meshDemoc_64.png</file>
+		<file>images/meshDemoc_add_24.png</file>
+		<file>images/meshDemoc_add_32.png</file>
+		<file>images/meshDemoc_add_64.png</file>
+		<file>images/hot_24.png</file>
+		<file>images/new_24.png</file>
+		<file>images/meshDemoc_32_new.png</file>
+	</qresource>
+</RCC>

@@ -1,0 +1,23 @@
+<RCC>
+  <qresource prefix="/lang">
+    <file>MeshDemoc_cs.qm</file>
+    <file>MeshDemoc_da.qm</file>
+    <file>MeshDemoc_de.qm</file>
+    <file>MeshDemoc_el.qm</file>
+    <file>MeshDemoc_en.qm</file>
+    <file>MeshDemoc_es.qm</file>
+    <file>MeshDemoc_fi.qm</file>
+    <file>MeshDemoc_fr.qm</file>
+    <file>MeshDemoc_hu.qm</file>
+    <file>MeshDemoc_it.qm</file>
+    <file>MeshDemoc_ja_JP.qm</file>
+    <file>MeshDemoc_ko.qm</file>
+    <file>MeshDemoc_nl.qm</file>
+    <file>MeshDemoc_pl.qm</file>
+    <file>MeshDemoc_ru.qm</file>
+    <file>MeshDemoc_sv.qm</file>
+    <file>MeshDemoc_tr.qm</file>
+    <file>MeshDemoc_zh_CN.qm</file>
+  </qresource>
+</RCC>
+
