@@ -9,7 +9,7 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 	# Qt 5
 	QT     += widgets
 }
-
+DEFINES *= NO_SQLCIPHER
 SOURCES = topjcdialog.cpp \
     gui/MeshDemocCreatePostDialog.cpp \
     gui/MeshDemocDialog.cpp \

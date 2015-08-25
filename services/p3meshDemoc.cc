@@ -73,10 +73,14 @@ bool p3MeshDemoc::getGroupData(const uint32_t &token, std::vector<RsMeshDemocGro
 {
 	std::vector<RsGxsGrpItem*> grpData;
 	bool ok = RsGenExchange::getGroupData(token, grpData);
-		
+
+	std::cout << "p3MeshDemoc::getGroupData OK " << ok << std::endl;
 	if(ok)
 	{
 		std::vector<RsGxsGrpItem*>::iterator vit = grpData.begin();
+
+
+		std::cout << "p3MeshDemoc::getGroupData len " << grpData.size() << std::endl;
 		
 		for(; vit != grpData.end(); ++vit)
 		{
@@ -86,6 +90,7 @@ bool p3MeshDemoc::getGroupData(const uint32_t &token, std::vector<RsMeshDemocGro
 				RsMeshDemocGroup grp = item->mGroup;
 				item->mGroup.mMeta = item->meta;
 				grp.mMeta = item->mGroup.mMeta;
+				std::cout << "p3MeshDemoc::getGroupData " << grp.mMeta.mGroupName << std::endl;
 				delete item;
 				groups.push_back(grp);
 			}
@@ -228,7 +233,9 @@ bool RsMeshDemocPost::calculateScores(time_t ref_time)
 
 /********************************************************************************************/
 /********************************************************************************************/
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 bool p3MeshDemoc::createGroup(uint32_t &token, RsMeshDemocGroup &group)
 {
 	std::cerr << "p3MeshDemoc::createGroup()" << std::endl;
@@ -236,8 +243,44 @@ bool p3MeshDemoc::createGroup(uint32_t &token, RsMeshDemocGroup &group)
 	RsGxsMeshDemocGroupItem* grpItem = new RsGxsMeshDemocGroupItem();
 	grpItem->mGroup = group;
 	grpItem->meta = group.mMeta;
-
+	grpItem->print(std::cerr);
 	RsGenExchange::publishGroup(token, grpItem);
+
+
+	/*bool ok = true;
+	time_t start = time(NULL);
+	while((RsGenExchange::getTokenService()->requestStatus(token) != RsTokenService::GXS_REQUEST_V2_STATUS_COMPLETE)
+		  &&(RsGenExchange::getTokenService()->requestStatus(token) != RsTokenService::GXS_REQUEST_V2_STATUS_FAILED)
+		  &&((time(NULL) < (start+10)))
+		  )
+	{
+#ifdef WINDOWS_SYS
+		Sleep(500);
+#else
+		usleep(500*1000) ;
+#endif
+	}
+
+    if(RsGenExchange::getTokenService()->requestStatus(token) == RsTokenService::GXS_REQUEST_V2_STATUS_COMPLETE)
+    {
+        std::vector<RsGxsIdGroup> grps;
+        ok &= mRsIdentity->getGroupData(token, grps);
+        for(std::vector<RsGxsIdGroup>::iterator vit = grps.begin(); vit != grps.end(); vit++)
+        {
+            RsGxsIdGroup& grp = *vit;
+            KeyValueReference<RsGxsGroupId> id("id", grp.mMeta.mGroupId);
+            KeyValueReference<RsPgpId> pgp_id("pgp_id",grp.mPgpId );
+            // not very happy about this, i think the flags should stay hidden in rsidentities
+            bool own = (grp.mMeta.mSubscribeFlags & GXS_SERV::GROUP_SUBSCRIBE_ADMIN);
+            bool pgp_linked = (grp.mMeta.mGroupFlags & RSGXSID_GROUPFLAG_REALID);
+            resp.mDataStream.getStreamToMember()
+                    << id
+                    << pgp_id
+                    << makeKeyValueReference("name", grp.mMeta.mGroupName)
+                    << makeKeyValueReference("own", own)
+                    << makeKeyValueReference("pgp_linked", pgp_linked);
+        }
+    }*/
 	return true;
 }
 

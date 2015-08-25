@@ -44,7 +44,7 @@ public:
 
 	virtual UserNotify *getUserNotify(QObject *parent);
 
-	virtual void loadRequest(const TokenQueue *queue, const TokenRequest &req);
+	//virtual void loadRequest(const TokenQueue *queue, const TokenRequest &req);
 
 protected:
 	virtual QString getHelpString() const ;

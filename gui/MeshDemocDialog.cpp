@@ -56,9 +56,9 @@ UserNotify *MeshDemocDialog::getUserNotify(QObject *parent)
 	return new MeshDemocUserNotify(rsMeshDemoc, parent);
 }
 
-void MeshDemocDialog::loadRequest(const TokenQueue *queue, const TokenRequest &req)
+/*void MeshDemocDialog::loadRequest(const TokenQueue *queue, const TokenRequest &req)
 {
-}
+}*/
 
 QString MeshDemocDialog::getHelpString() const
 {
@@ -156,11 +156,20 @@ QWidget *MeshDemocDialog::createCommentHeaderWidget(const RsGxsGroupId &grpId, c
 
 void MeshDemocDialog::loadGroupSummaryToken(const uint32_t &token, std::list<RsGroupMetaData> &groupInfo, RsUserdata *&userdata)
 {
+	std::cout << "meshdemoc: === loadGroupSummaryToken === \n";
 	std::vector<RsMeshDemocGroup> groups;
 	rsMeshDemoc->getGroupData(token, groups);
 
 	/* Save groups to fill description */
 	MeshDemocGroupInfoData *meshDemocData = new MeshDemocGroupInfoData;
+	int groupnum = groups.size();
+	if (groupnum > 0){
+		int a =0;
+	}else {
+
+		std::cout << "meshdemoc: no groups found \n";
+	}
+
 	userdata = meshDemocData;
 
 	std::vector<RsMeshDemocGroup>::iterator groupIt;

@@ -13,6 +13,8 @@
 #include "gxs/rsdataservice.h"
 #include "gxs/rsgxsnetservice.h"
 
+#include "rsserver/p3face.h"
+
 //static void *inited = new MeshDemocPlugin();
 
 //inited->rs_cache_service();
@@ -63,7 +65,21 @@ void MeshDemocPlugin::setInterfaces(RsPlugInInterfaces &interfaces){
     mPeers = interfaces.mPeers;
     mFiles = interfaces.mFiles;
 
+    /*std::cerr << "Starting p3WallService" << std::endl;
+    std::string dataDir = interfaces.mGxsDir + "rssocialnet_v0";
+    RsDirUtil::checkCreateDirectory(dataDir);
+    wall_ds = new RsDataService(dataDir, "wall_db",
+                                RsWall::RS_SERVICE_TYPE_WALL, NULL, "todo: encrypt db with secure password");
+    wall = new RsWall::p3WallService(wall_ds, NULL, interfaces.mGxsIdService, interfaces.mIdentity);
+    wall_ns = new RsGxsNetService(
+                RsWall::RS_SERVICE_TYPE_WALL, wall_ds, interfaces.mRsNxsNetMgr,
+                wall, wall->getServiceInfo(),
+                interfaces.mGxsIdService, interfaces.mGxsCirlces, interfaces.mPgpAuxUtils,
+                true    // group auto sync
+            );
+    RsWall::rsWall = wall;*/
 
+    std::cerr << "Starting MeshDemoc service" << std::endl;
     std::string dataDir = interfaces.mGxsDir + "meshDemoc";
     RsDirUtil::checkCreateDirectory(dataDir);
     RsGeneralDataService* wall_ds;
@@ -81,6 +97,11 @@ void MeshDemocPlugin::setInterfaces(RsPlugInInterfaces &interfaces){
     rsMeshDemoc = mMeshDemoc;
     mMeshDemoc->start();
     wall_ns->start();
+
+    //mConfigMgr->addConfiguration("posted.cfg", wall_ns);
+    //RsServer::
+    //RsServer::startServiceThread(mMeshDemoc);
+    //RsServer::startServiceThread(wall_ns);
 }
 
 MainPage *MeshDemocPlugin::qt_page() const

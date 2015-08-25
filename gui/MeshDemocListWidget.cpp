@@ -48,9 +48,9 @@ MeshDemocListWidget::MeshDemocListWidget(const RsGxsGroupId &meshDemocId, QWidge
 	mStateHelper->addWidget(mTokenTypePosts, ui->newSortButton);
 	mStateHelper->addWidget(mTokenTypePosts, ui->topSortButton);
 
-	mStateHelper->addWidget(mTokenTypeRelatedPosts, ui->hotSortButton);
-	mStateHelper->addWidget(mTokenTypeRelatedPosts, ui->newSortButton);
-	mStateHelper->addWidget(mTokenTypeRelatedPosts, ui->topSortButton);
+	mStateHelper->addWidget(mTokenTypePosts, ui->hotSortButton);
+	mStateHelper->addWidget(mTokenTypePosts, ui->newSortButton);
+	mStateHelper->addWidget(mTokenTypePosts, ui->topSortButton);
 
 	mStateHelper->addWidget(mTokenTypeGroupData, ui->submitPostButton);
 	mStateHelper->addWidget(mTokenTypeGroupData, ui->subscribeToolButton);
@@ -526,7 +526,7 @@ bool MeshDemocListWidget::insertGroupData(const uint32_t &token, RsGroupMetaData
 	return false;
 }
 
-void MeshDemocListWidget::insertPosts(const uint32_t &token, GxsMessageFramePostThread */*thread*/)
+void MeshDemocListWidget::insertAllPosts(const uint32_t &token, GxsMessageFramePostThread */*thread*/)
 {
 	std::vector<RsMeshDemocPost> posts;
 	rsMeshDemoc->getPostData(token, posts);
@@ -536,6 +536,44 @@ void MeshDemocListWidget::insertPosts(const uint32_t &token, GxsMessageFramePost
 	{
 		RsMeshDemocPost& p = *vit;
 		loadPost(p);
+	}
+
+	applyRanking();
+}
+
+void MeshDemocListWidget::insertPosts(const uint32_t &token)
+{
+
+	std::vector<RsMeshDemocPost> posts;
+	rsMeshDemoc->getPostData(token, posts);
+
+	std::vector<RsMeshDemocPost>::iterator vit;
+	for(vit = posts.begin(); vit != posts.end(); ++vit)
+	{
+		RsMeshDemocPost& p = *vit;
+
+		// modify post content
+		if(mPosts.find(p.mMeta.mMsgId) != mPosts.end())
+		{
+			std::cerr << "MeshDemocListWidget::updateCurrentDisplayComplete() updating MsgId: " << p.mMeta.mMsgId;
+			std::cerr << std::endl;
+
+			mPosts[p.mMeta.mMsgId]->setPost(p);
+		}
+		else
+		{
+			std::cerr << "MeshDemocListWidget::updateCurrentDisplayComplete() loading New MsgId: " << p.mMeta.mMsgId;
+			std::cerr << std::endl;
+			/* insert new entry */
+			loadPost(p);
+		}
+	}
+
+	time_t now = time(NULL);
+	QMap<RsGxsMessageId, MeshDemocItem*>::iterator pit;
+	for(pit = mPosts.begin(); pit != mPosts.end(); ++pit)
+	{
+		(*pit)->post().calculateScores(now);
 	}
 
 	applyRanking();

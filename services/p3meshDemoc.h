@@ -40,7 +40,7 @@
  *
  */
 
-const uint16_t RS_SERVICE_TYPE_MESH_DEMOC = 0xf000;
+const uint16_t RS_SERVICE_TYPE_MESH_DEMOC = 0xf555;
 
 class p3MeshDemoc: public p3PostBase, public RsMeshDemoc
 {
